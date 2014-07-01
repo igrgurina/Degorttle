@@ -1,12 +1,12 @@
 <?php
     
     /**
-     *  Base class for soldiers
+     *	Base class for soldiers
      * 
-     *  Implements the most basic type of soldier plus methods
-     *  for attacking and defending.
+     *	Implements the most basic type of soldier plus methods
+     *	for attacking and defending.
      * 
-     *  @author Ivan Grgurina <ivan.grgurina@gmail.com>
+     *	@author Ivan Grgurina <ivan.grgurina@gmail.com>
      */
     class Soldier
     {
@@ -62,8 +62,8 @@
         /**
          *	Sets class variables to default values for basic soldier
          *
-         * 	@param Army $army a value required for the class Soldier
-         * 	@return void
+         *	@param Army $army a value required for the class Soldier
+         *	@return void
          */
         public function __construct($army)
         {
@@ -94,11 +94,11 @@
          *	Adds one experience point, stores result from damage calculator
          *	to $damage and adds it up to the $totalDamage.
          *
-         * 	Method doesn't return anything because class Army takes
+         *	Method doesn't return anything because class Army takes
          *	care of calculated damage.
          *
-         * 	@param Army $army a value required for the class Soldier
-         * 	@return void
+         *	@param Army $army a value required for the class Soldier
+         *	@return void
          */
         public function attack($battle)
         {
@@ -113,10 +113,10 @@
          *	Reduces soldier's $health by given $dmg, and kills him
          *	if $health drops to zero.
          *
-         * 	It also prints appropriate message with soldier's stats.
+         *	It also prints appropriate message with soldier's stats.
          *
-         * 	@param float $dmg amount of damage dealt to soldier
-         * 	@return void
+         *	@param float $dmg amount of damage dealt to soldier
+         *	@return void
          */
         public function defend($dmg)
         {
@@ -137,8 +137,8 @@
          *	Multiplies $experience with fixed $damage, and divides it
          *	with number of soldiers affected by attack.
          *
-         * 	@param Battle $battle current battle
-         * 	@return float
+         *	@param Battle $battle current battle
+         *	@return float
          */
         public function calculateDamage($battle)
         {
@@ -146,16 +146,145 @@
         }
     
         /**
-         *  Gets current health of the soldier
+         *	Gets current health of the soldier
          *
-         *  @return string string representation of the float $health
+         *	@return string string representation of the float $health
          */
         public function getHealth()
         {
             return strval($this->health);
         }
     }
-
+    
+    /**
+     *	Extends Soldier class with specific options for tanks
+     * 
+     *	Tanks do 100x more damage in open land, none in the water, ...
+     *	Bla bla lot of numbers that can (should) change in the future.
+     * 
+     *	@author Ivan Grgurina <ivan.grgurina@gmail.com>
+     */
+    class Tank extends Soldier
+    {
+        public function __construct($army)
+        {
+            parent::__construct($army);
+            $this->affected = 5;
+            $this->damage = 5;
+            $this->health = 12;
+            $this->name = "Tank";
+            //echo "<i> You've got tank! OMG </i>";
+        }
+    
+        public function calculateDamage($battle)
+        {
+            $bonus = 1.0;
+            switch($battle->type)
+            {
+                case 'Water': { $bonus = 0; break; }
+                case 'Open land': { $bonus = 3; break; }
+                case 'Mountain': { $bonus = 0.9; break; }
+                case 'Woods': { $bonus = 0.7; break; }
+                default: { $bonus = 1.0; break; }
+            }
+            return parent::calculateDamage($battle) * 1.5 * $bonus;
+        }
+    }
+    
+    /**
+     *	Extends Soldier class with specific options for airforce airplanes
+     * 
+     *	Airforce is a that game changer you just have to have.
+     *	Bla bla lot of numbers that can (should) change in the future.
+     * 
+     *	@author Ivan Grgurina <ivan.grgurina@gmail.com>
+     */
+    class Airforce extends Soldier
+    {
+        public function __construct($army)
+        {
+            parent::__construct($army);
+            $this->affected = 10;
+            $this->damage = 6;
+            $this->health = 14;
+            $this->name = "Airplane";
+            //echo "<i> You have airforce! OMG </i>";
+        }
+    
+        public function calculateDamage($battle)
+        {
+            $bonus = 1.0;
+            switch($battle->type)
+            {
+                case 'Water':
+                case 'Open land': { $bonus = 1.5; break; }
+                case 'Mountain':
+                case 'Woods': { $bonus = 2.5; break; }
+                default: { $bonus = 1.0; break; }
+            }
+            return parent::calculateDamage($battle) * 1.5 * $bonus;
+        }
+    }
+    
+    /**
+     *	Extends Soldier class with specific options for helicopters
+     *
+     *	Bla bla lot of numbers that can (should) change in the future.
+     *
+     *	@author Ivan Grgurina <ivan.grgurina@gmail.com>
+     */
+    class Helicopter extends Soldier
+    {
+        public function __construct($army)
+        {
+            parent::__construct($army);
+            $this->affected = 10;
+            $this->health = 13;
+            $this->damage = 3;
+            $this->name = "Helicopter";
+            //echo "<i> You've got helicopter! Now you can fly and stuff.. </i>";
+        }
+    
+        public function calculateDamage($battle)
+        {
+            $bonus = 1.0;
+            switch($battle->type)
+            {
+                case 'Water':
+                case 'Open land': { $bonus = 1.5; break; }
+                case 'Mountain':
+                case 'Woods': { $bonus = 1.25; break; }
+                default: { $bonus = 1.0; break; }
+            }
+            return parent::calculateDamage($battle) * 1.25 * $bonus;
+        }
+    }
+    
+    /**
+     *	Extends Soldier class with specific options for navy ships
+     *
+     *	Bla bla lot of numbers that can (should) change in the future.
+     * 
+     *	@author Ivan Grgurina <ivan.grgurina@gmail.com>
+     */
+    class Navy extends Soldier
+    {
+        public function __construct($army)
+        {
+            parent::__construct($army);
+            $this->affected = 7;
+            $this->health = 14;
+            $this->damage = 6;
+            $this->name = "Ship";
+            //echo "<i> You now have a ship! WOW.. Such Power! </i>";
+        }
+    
+        public function calculateDamage($battle)
+        {
+            $bonus = ($battle->type === 'Water' ? 4 : 0);
+            return parent::calculateDamage($battle) * 1.5 * $bonus;
+        }
+    }
     
     echo "Loading soldiers... <br />"; // just making it fancy
 ?>
