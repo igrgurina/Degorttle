@@ -1,9 +1,9 @@
 <?php
     
     /**
-     *  Army class
+     *	Army class
      * 
-     *  @author Ivan Grgurina <ivan.grgurina@gmail.com>
+     *	@author Ivan Grgurina <ivan.grgurina@gmail.com>
      */
     class Army
     {
@@ -27,11 +27,15 @@
          *	@var string the official name of the army, in this case - country
          */
         private $name;
-
+    
+        // ove varijable služe čisto za ljepši ispis, nemaju nikakvog utjecaja na battle engine
+        // možda bi bolje rješenje bilo napraviti dictionary sa key: string i value: integer, but this'll do (s obzirom da je primjena samo za ispis)
+        private $tanks, $helli, $air, $ship, $sol;
+    
         /**
          *	Creates army
          *
-         *  Sets name, initializes stats-only variables, creates given number $num of soldiers.
+         *	Sets name, initializes stats-only variables, creates given number $num of random soldiers.
          *
          * 	@param integer $num a number of soldiers to be added into army
          * 	@return void
@@ -40,6 +44,7 @@
         {
             $this->setName();
     
+            $this->tanks = 0; $this->helli = 0; $this->air = 0; $this->ship = 0; $this->sol = 0; // :P
             echo "<br />Creating army with " . $num . " soldiers.. <br />" . PHP_EOL;
             $this->numOfSoldiers = $num;
             for ($i = 0; $i < $num; $i++)
@@ -55,35 +60,67 @@
          */
         public function __toString()
         {
-            return "<b>" . $this->name . "</b> => " . PHP_EOL .
+            return "<b>" . $this->name . "</b> => <br />Tanks: " . $this->tanks . PHP_EOL .
+            "<br />Aircrafts: " . $this->air . PHP_EOL .
+            "<br />Helicopters: " . $this->helli . PHP_EOL .
+            "<br />Ships: " . $this->ship . PHP_EOL .
             "<br />Soldiers: " . $this->sol . "<br />" . PHP_EOL;
         }    
     
         /* SOLDIER METHODS */
-
+    
         /**
-         *	Adds one soldier to army
+         *	Adds one random soldier to army
+         *
+         *	Chances for certain type of soldier:
+         *	    soldier:    80%
+         *	    tank:       20%    
+         *	    airforce:    5%
+         *	    helicopter: 10%
+         *	    navy:        5%
          *
          *	@return void
          */
         private function addSoldier()
         {
-            // radim posebnu fju za dodavanje samo 1 vojnika jer planiram imati više tipova vojnika, koje ću na random odabirati
+            //switch(rand(0, 19))
+            //{
+            //    case 0: { array_push($this->soldiers, new Navy($this)); $this->ship++; break; }
+            //    case 1: 
+            //    case 2: { array_push($this->soldiers, new Helicopter($this)); $this->helli++; break; }
+            //    case 3:
+            //    case 4: 
+            //    case 5:
+            //    case 6: { array_push($this->soldiers, new Tank($this)); $this->tanks++; break; }
+            //    case 7: { array_push($this->soldiers, new Airforce($this)); $this->air++; break; }
+            //    default: 
+            //        {
             array_push($this->soldiers, new Soldier($this));
+                        //$this->sol++;
+                        //break;
+            //        }
+            //}
         }
     
         /**
          *	Removes soldier from the army when he dies
          *
-         *  Using array_splice reorders the index keys of the $soldiers array nicely, which is required for later features.
-         *  The $numOfSoldiers variable is also decreased by one.
+         *	Using array_splice reorders the index keys of the $soldiers array nicely, which is required for later features.
+         *	The $numOfSoldiers variable is also decreased by one.
          *
-         *  @param Soldier $soldier dead soldier that has to be removed from army (and come back to life 3 days later maybe) :P
+         *	@param Soldier $soldier dead soldier that has to be removed from army (and come back to life 3 days later maybe) :P
          *	@return void
          */
         public function removeSoldier($soldier)
         {
             $this->numOfSoldiers--;
+            if($this->numOfSoldiers < 5)
+            {
+                echo "<br /><br /><br /><b>";
+                echo implode("  <br/>", $this->soldiers);
+                echo "</b>";
+    
+            }
             array_splice($this->soldiers, array_search($soldier, $this->soldiers), 1);            
         }
     
@@ -92,11 +129,11 @@
         /**
          *	Function for army that is attacking the $defender army
          *
-         *  First, the attack() method is being called upon every soldier.
-         *  The damage dealt by that soldier is then inflicted to defending army.
+         *	First, the attack() method is being called upon every soldier.
+         *	The damage dealt by that soldier is then inflicted to defending army.
          *
-         *  @param Battle $battle current ongoing battle
-         *  @param Army $defender defending army
+         *	@param Battle $battle current ongoing battle
+         *	@param Army $defender defending army
          *	@return void
          */
         public function fight($battle, $defender)
@@ -111,12 +148,12 @@
         /**
          *	Function for army that is defending itself
          *
-         *  Deals damage appropriately to members of the defending army.
-         *  If the number of affected soldiers $num (by attack) is higher than current number of soldiers in defence,
-         *  it's being lowered to that number, thus dealing more damage, but to less targets.
+         *	Deals damage appropriately to members of the defending army.
+         *	If the number of affected soldiers $num (by attack) is higher than current number of soldiers in defence,
+         *	it's being lowered to that number, thus dealing more damage, but to less targets.
          *
-         *  @param float $damage amount of damage dealt by attack
-         *  @param int $num number of targets affected by attack
+         *	@param float $damage amount of damage dealt by attack
+         *	@param int $num number of targets affected by attack
          *	@return void
          */
         public function inflictDamage($damage, $num)
@@ -138,7 +175,7 @@
         /**
          *	Checks whether army is defeated
          *
-         *  Which actually means checking whether the number of soldiers reached zero.
+         *	Which actually means checking whether the number of soldiers reached zero.
          *
          *	@return boolean has this army lost the battle?
          */
@@ -148,7 +185,7 @@
         }
     
         /* NAME METHODS */
-
+    
         /**
          *	Sets official name for the army
          *
@@ -159,7 +196,7 @@
             $countries = array('Croatia', 'Serbia', 'Slovenia', 'Italia', 'England', 'Scotland', 'Spain', 'Portugal', 'Mexico', 'Brazil', 'Chile', 'Argentina', 'China');
             $this->name = $countries[rand(0, count($countries) - 1)];
         }
-
+    
         /**
          *	Gets official name of the army
          *
