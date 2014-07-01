@@ -83,23 +83,18 @@
          */
         private function addSoldier()
         {
-            //switch(rand(0, 19))
-            //{
-            //    case 0: { array_push($this->soldiers, new Navy($this)); $this->ship++; break; }
-            //    case 1: 
-            //    case 2: { array_push($this->soldiers, new Helicopter($this)); $this->helli++; break; }
-            //    case 3:
-            //    case 4: 
-            //    case 5:
-            //    case 6: { array_push($this->soldiers, new Tank($this)); $this->tanks++; break; }
-            //    case 7: { array_push($this->soldiers, new Airforce($this)); $this->air++; break; }
-            //    default: 
-            //        {
-            array_push($this->soldiers, new Soldier($this));
-                        //$this->sol++;
-                        //break;
-            //        }
-            //}
+            switch(rand(0, 19))
+            {
+                case 0: { array_push($this->soldiers, new Navy($this)); $this->ship++; break; }
+                case 1: 
+                case 2: { array_push($this->soldiers, new Helicopter($this)); $this->helli++; break; }
+                case 3:
+                case 4: 
+                case 5:
+                case 6: { array_push($this->soldiers, new Tank($this)); $this->tanks++; break; }
+                case 7: { array_push($this->soldiers, new Airforce($this)); $this->air++; break; }
+                default: { array_push($this->soldiers, new Soldier($this)); $this->sol++; break; }
+            }
         }
     
         /**
