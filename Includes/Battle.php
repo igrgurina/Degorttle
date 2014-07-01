@@ -181,7 +181,7 @@
         /**
          *	Determines whether one of the armies won
          *
-         *  ako su ili jedna ili druga poražene, bitka treba završiti, inače - bitka se nastavlja
+         *  Ako su ili jedna ili druga poražene, bitka treba završiti, inače - bitka se nastavlja
          *
          *	@return boolean
          */
