@@ -16,28 +16,28 @@
          *
          *	@var Army first army fighting this battle
          */
-        public $army1;
+        public $_army1;
     
         /**
          *	A public variable
          *
          *	@var Army second army fighting this battle
          */
-        public $army2;
+        public $_army2;
     
         /**
          *	A public variable
          *
          *	@var string type of battle
          */
-        public $type;
+        public $_type;
     
         /**
          *	A public variable
          *
          *	@var integer 0: army1, 1: army2
          */
-        private $turn;
+        private $_turn;
     
         /**
          *	Sets the background required for starting battle engine
@@ -51,11 +51,11 @@
         public function __construct($one, $two)
         {
             echo "<br />Creating battle simulator.." . PHP_EOL;
-            $this->type = $this->setRandomTypeOfBattle();
+            $this->_type = $this->setRandomTypeOfBattle();
             echo "<br />Optimizing terrain..." . PHP_EOL;
-            $this->turn = rand(0, 1);
-            $this->army1 = $one;
-            $this->army2 = $two;
+            $this->_turn = rand(0, 1);
+            $this->_army1 = $one;
+            $this->_army2 = $two;
         }
     
         /**
@@ -94,7 +94,7 @@
          */
         private function getTypeDescription()
         {
-            switch($this->type)
+            switch($this->_type)
             {
                 case 'Mountain':
                     return "Mountains are peaceful places. Your ships don't do any damage here, while your tanks will do 10% less damage. Flying weapons (airplanes and helicopters) do normal damage." . PHP_EOL;
@@ -111,13 +111,13 @@
          *	Changes turns between armies
          *
          *	This is turn by turn battle.
-         *	Directly assigns value to $turn, doesn't return anything.
+         *	Directly assigns value to $_turn, doesn't return anything.
          *
          *	@return void
          */
         private function changeTurn()
         {
-            $this->turn = 1 - $this->turn; // 1-0 = 1, 1-1 = 0
+            $this->_turn = 1 - $this->_turn; // 1-0 = 1, 1-1 = 0
         }
     
         /**
@@ -127,7 +127,7 @@
          */
         public function getTypeOfBattle()
         {
-            return "Type of this battle is: " . $this->type . ".<br />";
+            return "Type of this battle is: " . $this->_type . ".<br />";
         }
     
         /**
@@ -137,7 +137,7 @@
          */
         public function getAttacker()
         {
-            return $this->turn === 0 ? $this->army1 : $this->army2;
+            return $this->_turn === 0 ? $this->_army1 : $this->_army2;
         }
     
         /**
@@ -147,7 +147,7 @@
          */
         public function getDefender()
         {
-            return $this->turn === 0 ? $this->army2 : $this->army1;
+            return $this->_turn === 0 ? $this->_army2 : $this->_army1;
         }
     
         /**
@@ -163,13 +163,14 @@
         public function startBattle()
         {
             echo "Starting battle.. <br />";
-            echo "Type of this battle is: <i>" . $this->type . "</i>.<br />";
+            echo "Type of this battle is: <i>" . $this->_type . "</i>.<br />";
             echo "\t\t<i>" . $this->getTypeDescription() . "</i><br/>";
     
+            $round = 0;
             while(!$this->battleFinished())
             {
                 // prints information about current round:
-                echo "<br /><br />ROUND " . $round . " Attacker: <i>";
+                echo "<br /><br />ROUND " . $round++ . " Attacker: <i>";
                 echo $this->getAttacker()->getName();
                 echo "</i>\tDefender: <i>";
                 echo $this->getDefender()->getName() . "</i>";
@@ -194,8 +195,8 @@
         private function status()
         {
             echo "<br /><br />Status (number of soldiers alive): <br />";
-            echo $this->army1->getName() . ": " . $this->army1->numOfSoldiers . "<br />";
-            echo $this->army2->getName() . ": " . $this->army2->numOfSoldiers;
+            echo $this->_army1->getName() . ": " . $this->_army1->_numOfSoldiers . "<br />";
+            echo $this->_army2->getName() . ": " . $this->_army2->_numOfSoldiers;
         }
     
         /**
@@ -207,7 +208,7 @@
          */
         public function battleFinished()
         {
-            return ($this->army1->isDefeated() or $this->army2->isDefeated());
+            return ($this->_army1->isDefeated() or $this->_army2->isDefeated());
         }
     
         /**
@@ -217,7 +218,7 @@
          */
         private function getWinner()
         {
-            return $this->army1->isDefeated() ? $this->army2->getName() : $this->army1->getName();
+            return $this->_army1->isDefeated() ? $this->_army2->getName() : $this->_army1->getName();
         }
     }
     
