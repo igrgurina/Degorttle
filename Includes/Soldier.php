@@ -15,49 +15,49 @@
          *
          *	@var integer number of experience points, which is equal to number of hits
          */
-        public $experience;
+        public $_experience;
     
         /**
          *	A public variable
          *
          *	@var float damage done with this soldier's attack to all enemies in one turn
          */
-        public $damage;
+        public $_damage;
     
         /**
          *	A private variable
          *
          *	@var float just for statistics - it's printed when the soldier dies
          */
-        private $totalDamage;
+        private $_totalDamage;
     
         /**
          *	A public variable
          *
          *	@var integer how many enemies are affected with damage by this attack
          */
-        public $affected;
+        public $_affected;
     
         /**
          *	A public variable
          *
          *	@var float decreased by damage, battle engine randomly (but appropriately) afflicts damage to enemy's soldiers
          */
-        public $health;
+        public $_health;
     
         /**
          *	A public variable
          *
          *	@var string describes the type of the soldier (soldier, tank, ship, ...)
          */
-        public $name;
+        public $_name;
     
         /**
          *	A public variable
          *
-         *	@var Army holds the information where the soldier is positioned (which army, etc.)
+         *	@var _army holds the information where the soldier is positioned (which _army, etc.)
          */
-        public $ARMY;
+        public $_army;
     
         /**
          *	Sets class variables to default values for basic soldier
@@ -67,14 +67,14 @@
          */
         public function __construct($army)
         {
-            $this->experience = 0;
-            $this->affected = 1;
-            $this->damage = 1.5;
-            $this->health = 5;
+            $this->_experience = 0;
+            $this->_affected = 1;
+            $this->_damage = 1.5;
+            $this->_health = 5;
     
-            $this->name = "Soldier";
-            $this->totalDamage = 0;
-            $this->ARMY = $army;
+            $this->_name = "Soldier";
+            $this->_totalDamage = 0;
+            $this->_army = $army;
             //echo "<br /><i>Added new soldier. </i>";        
         }
     
@@ -85,33 +85,33 @@
          */
         public function __toString()
         {
-            return $this->name . " with " . $this->experience . " experience points has done total of <b>" . $this->totalDamage . "</b> damage";
+            return $this->_name . " with " . $this->_experience . " experience points has done total of <b>" . $this->_totalDamage . "</b> damage";
         }
     
         /**
          *	Soldier attacks the enemy
          *
          *	Adds one experience point, stores result from damage calculator
-         *	to $damage and adds it up to the $totalDamage.
+         *	to $_damage and adds it up to the $this->_totalDamage.
          *
-         *	Method doesn't return anything because class Army takes
+         *	Method doesn't return anything because class _army takes
          *	care of calculated damage.
          *
-         *	@param Army $army a value required for the class Soldier
+         *	@param Battle $battle battle where the soldier fights
          *	@return void
          */
         public function attack($battle)
         {
-            ++$this->experience;
-            $this->damage = $this->calculateDamage($battle);
-            $this->totalDamage = $this->totalDamage + ($this->damage * $this->affected);
+            ++$this->_experience;
+            $this->_damage = $this->calculateDamage($battle);
+            $this->_totalDamage = $this->_totalDamage + ($this->_damage * $this->_affected);
         }
     
         /**
          *	Soldier is defending himself
          *
-         *	Reduces soldier's $health by given $dmg, and kills him
-         *	if $health drops to zero.
+         *	Reduces soldier's $_health by given $dmg, and kills him
+         *	if $_health drops to zero.
          *
          *	It also prints appropriate message with soldier's stats.
          *
@@ -120,12 +120,12 @@
          */
         public function defend($dmg)
         {
-            //echo $this->health;
-            $this->health = $this->health - $dmg;
-            $this->experience++;
-            if($this->health <= 0)
+            //echo $this->_health;
+            $this->_health = $this->_health - $dmg;
+            $this->_experience++;
+            if($this->_health <= 0)
             {
-                $this->ARMY->removeSoldier($this);
+                $this->_army->removeSoldier($this);
                 echo "<br /> " . $this . " is dead.";
                 unset($this);
             }
@@ -134,7 +134,7 @@
         /**
          *	Basic single man damage calculator
          *
-         *	Multiplies $experience with fixed $damage, and divides it
+         *	Multiplies $this->_experience with fixed $_damage, and divides it
          *	with number of soldiers affected by attack.
          *
          *	@param Battle $battle current battle
@@ -142,17 +142,17 @@
          */
         public function calculateDamage($battle)
         {
-            return ($this->experience * $this->damage) / $this->affected;
+            return ($this->_experience * $this->_damage) / $this->_affected;
         }
     
         /**
          *	Gets current health of the soldier
          *
-         *	@return string string representation of the float $health
+         *	@return string string representation of the float $_health
          */
         public function getHealth()
         {
-            return strval($this->health);
+            return strval($this->_health);
         }
     }
     
@@ -166,20 +166,20 @@
      */
     class Tank extends Soldier
     {
-        public function __construct($army)
+        public function __construct($_army)
         {
-            parent::__construct($army);
-            $this->affected = 5;
-            $this->damage = 5;
-            $this->health = 12;
-            $this->name = "Tank";
+            parent::__construct($_army);
+            $this->_affected = 5;
+            $this->_damage = 5;
+            $this->_health = 12;
+            $this->_name = "Tank";
             //echo "<i> You've got tank! OMG </i>";
         }
     
         public function calculateDamage($battle)
         {
             $bonus = 1.0;
-            switch($battle->type)
+            switch($battle->_type)
             {
                 case 'Water': { $bonus = 0; break; }
                 case 'Open land': { $bonus = 3; break; }
@@ -201,20 +201,20 @@
      */
     class Airforce extends Soldier
     {
-        public function __construct($army)
+        public function __construct($_army)
         {
-            parent::__construct($army);
-            $this->affected = 10;
-            $this->damage = 6;
-            $this->health = 14;
-            $this->name = "Airplane";
+            parent::__construct($_army);
+            $this->_affected = 10;
+            $this->_damage = 6;
+            $this->_health = 14;
+            $this->_name = "Airplane";
             //echo "<i> You have airforce! OMG </i>";
         }
     
         public function calculateDamage($battle)
         {
             $bonus = 1.0;
-            switch($battle->type)
+            switch($battle->_type)
             {
                 case 'Water':
                 case 'Open land': { $bonus = 1.5; break; }
@@ -235,20 +235,20 @@
      */
     class Helicopter extends Soldier
     {
-        public function __construct($army)
+        public function __construct($_army)
         {
-            parent::__construct($army);
-            $this->affected = 10;
-            $this->health = 13;
-            $this->damage = 3;
-            $this->name = "Helicopter";
+            parent::__construct($_army);
+            $this->_affected = 10;
+            $this->_health = 13;
+            $this->_damage = 3;
+            $this->_name = "Helicopter";
             //echo "<i> You've got helicopter! Now you can fly and stuff.. </i>";
         }
     
         public function calculateDamage($battle)
         {
             $bonus = 1.0;
-            switch($battle->type)
+            switch($battle->_type)
             {
                 case 'Water':
                 case 'Open land': { $bonus = 1.5; break; }
@@ -269,19 +269,19 @@
      */
     class Navy extends Soldier
     {
-        public function __construct($army)
+        public function __construct($_army)
         {
-            parent::__construct($army);
-            $this->affected = 7;
-            $this->health = 14;
-            $this->damage = 6;
-            $this->name = "Ship";
+            parent::__construct($_army);
+            $this->_affected = 7;
+            $this->_health = 14;
+            $this->_damage = 6;
+            $this->_name = "Ship";
             //echo "<i> You now have a ship! WOW.. Such Power! </i>";
         }
     
         public function calculateDamage($battle)
         {
-            $bonus = ($battle->type === 'Water' ? 4 : 0);
+            $bonus = ($battle->_type === 'Water' ? 4 : 0);
             return parent::calculateDamage($battle) * 1.5 * $bonus;
         }
     }
