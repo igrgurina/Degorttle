@@ -44,9 +44,9 @@
          *
          *  Assigns the type of battle and decides which army starts first attack.
          *
-         * 	@param Army $one first army
+         *  @param Army $one first army
          *  @param Army $two second army
-         * 	@return void
+         *  @return void
          */
         public function __construct($one, $two)
         {
