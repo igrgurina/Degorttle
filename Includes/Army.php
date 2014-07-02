@@ -210,23 +210,7 @@
         {
             return $this->_name;
         }
-    
-        /* STATISTICS METHODS */
-        /* NOT USED ANYMORE, but still nice if you want to see what's happening */
-        public function printStats()
-        {
-            $this->printHealth();
-            echo "<br/> " . $this->_numOfSoldiers . " soldiers are still alive.";
-        }    
-        public function printHealth()
-        {
-            $arr = array();
-            foreach($this->_soldiers as $soldier)
-            {
-                array_push($arr, $soldier->getHealth());
-            }
-            echo implode(" : ", $arr);
-        }
+
     }
     
     echo "Loading armies... <br />" . PHP_EOL; // just making it fancy
