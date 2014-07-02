@@ -28,9 +28,12 @@
          */
         private $_name;
     
-        // ove varijable služe čisto za ljepši ispis, nemaju nikakvog utjecaja na battle engine
-        // možda bi bolje rješenje bilo napraviti dictionary sa key: string i value: integer, but this'll do (s obzirom da je primjena samo za ispis)
-        private $_stats; //$tanks, $helli, $air, $ship, $sol;
+        /**
+         *	A private variable
+         *
+         *	@var array counts the number of soldier types
+         */
+        private $_stats;
     
         /**
          *	Creates army
@@ -51,7 +54,6 @@
                                 "ship" => 0,
                                 "soldier" => 0
                             );
-            //$this->_stats["tank"] = 0; $this->_stats["hellicopter"] = 0; $this->_stats["airplane"] = 0; $this->_stats["ship"] = 0; $this->_stats["soldier"] = 0; // :P
             echo "<br />Creating army with " . $num . " soldiers.. <br />" . PHP_EOL;
             $this->_numOfSoldiers = $num;
             for ($i = 0; $i < $num; $i++)
