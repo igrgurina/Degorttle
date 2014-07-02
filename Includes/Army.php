@@ -30,7 +30,7 @@
     
         // ove varijable služe čisto za ljepši ispis, nemaju nikakvog utjecaja na battle engine
         // možda bi bolje rješenje bilo napraviti dictionary sa key: string i value: integer, but this'll do (s obzirom da je primjena samo za ispis)
-        private $tanks, $helli, $air, $ship, $sol;
+        private $_stats; //$tanks, $helli, $air, $ship, $sol;
     
         /**
          *	Creates army
@@ -44,7 +44,14 @@
         {
             $this->setName();
     
-            $this->tanks = 0; $this->helli = 0; $this->air = 0; $this->ship = 0; $this->sol = 0; // :P
+            $this->_stats = array(
+                                "tank" => 0,
+                                "hellicopter" => 0,
+                                "airplane" => 0,
+                                "ship" => 0,
+                                "soldier" => 0
+                            );
+            //$this->_stats["tank"] = 0; $this->_stats["hellicopter"] = 0; $this->_stats["airplane"] = 0; $this->_stats["ship"] = 0; $this->_stats["soldier"] = 0; // :P
             echo "<br />Creating army with " . $num . " soldiers.. <br />" . PHP_EOL;
             $this->_numOfSoldiers = $num;
             for ($i = 0; $i < $num; $i++)
@@ -60,11 +67,11 @@
          */
         public function __toString()
         {
-            return "<b>" . $this->_name . "</b> => <br />Tanks: " . $this->tanks . PHP_EOL .
-            "<br />Aircrafts: " . $this->air . PHP_EOL .
-            "<br />Helicopters: " . $this->helli . PHP_EOL .
-            "<br />Ships: " . $this->ship . PHP_EOL .
-            "<br />Soldiers: " . $this->sol . "<br />" . PHP_EOL;
+            return "<b>" . $this->_name . "</b> => <br />Tanks: " . $this->_stats["tank"] . PHP_EOL .
+            "<br />Aircrafts: " . $this->_stats["airplane"] . PHP_EOL .
+            "<br />Helicopters: " . $this->_stats["hellicopter"] . PHP_EOL .
+            "<br />Ships: " . $this->_stats["ship"] . PHP_EOL .
+            "<br />Soldiers: " . $this->_stats["soldier"] . "<br />" . PHP_EOL;
         }    
     
         /* SOLDIER METHODS */
@@ -85,15 +92,15 @@
         {
             switch(rand(0, 19))
             {
-                case 0: { array_push($this->_soldiers, new Navy($this)); $this->ship++; break; }
+                case 0: { array_push($this->_soldiers, new Navy($this)); $this->_stats["ship"]++; break; }
                 case 1: 
-                case 2: { array_push($this->_soldiers, new Helicopter($this)); $this->helli++; break; }
+                case 2: { array_push($this->_soldiers, new Helicopter($this)); $this->_stats["hellicopter"]++; break; }
                 case 3:
                 case 4: 
                 case 5:
-                case 6: { array_push($this->_soldiers, new Tank($this)); $this->tanks++; break; }
-                case 7: { array_push($this->_soldiers, new Airforce($this)); $this->air++; break; }
-                default: { array_push($this->_soldiers, new Soldier($this)); $this->sol++; break; }
+                case 6: { array_push($this->_soldiers, new Tank($this)); $this->_stats["tank"]++; break; }
+                case 7: { array_push($this->_soldiers, new Airforce($this)); $this->_stats["airplane"]++; break; }
+                default: { array_push($this->_soldiers, new Soldier($this)); $this->_stats["soldier"]++; break; }
             }
         }
     
