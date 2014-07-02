@@ -1,7 +1,7 @@
-Degorttle
-=========
+# Degorttle
 
-Degordian battle - Degorttle
+## Information
+
 
 The basic version with just basic foot soldiers works fine, but the version with not just soldiers, but tanks, airplanes, helicopters, navy ships, as well as geo points and battle types (open land, sea, mountain, forest) is still buggy at times.
 
@@ -12,6 +12,6 @@ Because of limited time I have (and because this is not going to be used in prod
 If anyone is interested, here's how to fix it:
 * play with numbers in Includes/Soldier.php, specifically $damage, $affected and $health for every type of soldier
 
-You might just get the right combo to make it (always, not just sometimes) work.
+You might just get the right combination to make it (always, not just sometimes) work.
 
 p.s. sometimes === 7 in 10 tries
