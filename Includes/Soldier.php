@@ -92,9 +92,9 @@
          *	Soldier attacks the enemy
          *
          *	Adds one experience point, stores result from damage calculator
-         *	to $_damage and adds it up to the $this->_totalDamage.
+         *	to $_damage and adds it up to the $_totalDamage.
          *
-         *	Method doesn't return anything because class _army takes
+         *	Method doesn't return anything because class $_army takes
          *	care of calculated damage.
          *
          *	@param Battle $battle battle where the soldier fights
@@ -134,7 +134,7 @@
         /**
          *	Basic single man damage calculator
          *
-         *	Multiplies $this->_experience with fixed $_damage, and divides it
+         *	Multiplies $_experience with fixed $_damage, and divides it
          *	with number of soldiers affected by attack.
          *
          *	@param Battle $battle current battle
